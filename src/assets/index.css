@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    --primaria: #64de95;
+    --primaria-dark: #54ba7d;
+    --primaria-clara: #e3faec;
+    --preto: #474747;
+    --cinza: #aeaeae;
+    --erro: rgb(255, 104, 104);
+    --erro-claro: rgb(255, 174, 174);
+    --border-radius: 5px;
+    color: var(--preto);
+}
+
+input {
+    background-color: transparent;
+    border: 2px solid var(--cinza);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    outline: none;
+    color: var(--preto)
+}
+
+input:focus {
+    border: 2px solid var(--primaria);
+}
+
+/* BUTTON */
+button {
+    background-color: var(--primaria);
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    color: white;
+    cursor: pointer;
+}
+
+button.text {
+    background-color: transparent;
+    color: var(--cinza);
+}
+
+button:hover {
+    background-color: var(--primaria-dark);
+}
+
+button.text:hover {
+    background-color: var(--primaria-clara);
+    color: var(--primaria);
+}
+
+/* TABELA */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-radius: var(--border-radius);
+    background-color: var(--primaria);
+    overflow: hidden;
+}
+
+table thead {
+    background-color: var(--primaria);
+    color: var(--preto);
+    text-align: left;
+}
+
+table thead th {
+    padding: 10px 30px;
+}
+
+table tbody tr {
+    background-color: white;
+}
+
+table tbody tr:nth-child(2n) {
+    background-color: var(--primaria-clara);
+}
+
+table tbody tr td {
+    padding: 10px 30px;
+}
+
+table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: var(--border-radius);
+}
+
+table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: var(--border-radius);
+}
+
+/* FLEX */
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.flex-end {
+    justify-content: flex-end;
+}
+
+/* FORMS */
+.form {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.form form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.form form input {
+    width: calc(50% - 5px);
+}
+
+.form .btns {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form .btns button {
+    margin-left: 10px;
+}
