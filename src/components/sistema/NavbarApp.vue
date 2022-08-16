@@ -4,6 +4,7 @@
     <div>
       <router-link to="/home">Home</router-link>
       <router-link to="/usuarios">Usuários</router-link>
+      <router-link to="/clientes">Clientes</router-link>
       <a @click="sair()">Sair</a>
     </div>
   </nav>

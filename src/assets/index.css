@@ -134,6 +134,7 @@ table tbody tr:last-child td:first-child {
 .form .btns {
     display: flex;
     justify-content: flex-end;
+    margin-top: 20px;
 }
 
 .form .btns button {
