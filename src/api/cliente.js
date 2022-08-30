@@ -16,6 +16,15 @@ export async function buscarTodosClientes() {
   }
 }
 
+export async function buscarClientePorId(id) {
+  try {
+    setToken();
+    return await api.get(id);
+  } catch (error) {
+    throw { message: error.body.message };
+  }
+}
+
 export async function cadastrarCliente(cliente) {
   try {
     setToken();

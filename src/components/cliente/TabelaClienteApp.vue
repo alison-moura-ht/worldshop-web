@@ -14,6 +14,7 @@
         <td>
           <button @click="editar(item)" class="text">Editar</button>
           <button @click="remover(item)" class="text">Remover</button>
+          <button @click="detalhe(item._id)" class="text">Detalhes</button>
         </td>
       </tr>
     </tbody>
@@ -54,6 +55,9 @@ export default {
     },
     limparFiltro() {
       this.textoBusca = "";
+    },
+    detalhe(id) {
+      this.$router.push({ name: "DetalheCliente", params: { id: id } });
     },
   },
 };

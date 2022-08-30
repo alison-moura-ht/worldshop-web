@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import {
   atualizarCliente,
+  buscarClientePorId,
   buscarTodosClientes,
   cadastrarCliente,
   removerCliente,
@@ -14,6 +15,13 @@ export const useClienteStore = defineStore("cliente", {
     async buscarTodosClientes() {
       try {
         this.clientes = await buscarTodosClientes();
+      } catch (error) {
+        throw error;
+      }
+    },
+    async buscarClientePorId(id) {
+      try {
+        return await buscarClientePorId(id);
       } catch (error) {
         throw error;
       }
