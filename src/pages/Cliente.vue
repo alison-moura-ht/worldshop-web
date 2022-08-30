@@ -4,6 +4,16 @@
       <h1>Clientes</h1>
       <button v-show="!form" @click="abrirForm()">Novo</button>
     </div>
+    <div class="mb-20">
+      <input
+        v-model="textoBusca"
+        class="mr-10"
+        type="text"
+        placeholder="Digite o nome, email ou CPF para buscar"
+      />
+      <button class="mr-10" @click="filtrarClientes">Buscar</button>
+      <button class="text" @click="limparFiltro">Limpar</button>
+    </div>
     <section class="form" v-show="form">
       <form-cliente-app
         @cancelar="fecharForm()"
@@ -13,6 +23,7 @@
     </section>
     <section>
       <tabela-cliente-app
+        ref="tabela"
         @editar="editar"
         @remover="remover"
       ></tabela-cliente-app>
@@ -34,6 +45,7 @@ export default {
   },
   data: () => ({
     form: false,
+    textoBusca: "",
   }),
   methods: {
     ...mapActions(useClienteStore, ["buscarTodosClientes", "removerCliente"]),
@@ -72,6 +84,16 @@ export default {
         this.exibirAlertaErro(error.message);
       }
     },
+    filtrarClientes() {
+      if (this.textoBusca) {
+        this.$refs.tabela.filtrarClientes(this.textoBusca);
+      } else {
+        this.exibirAlertaErro("Digite algum CPF para a busca");
+      }
+    },
+    limparFiltro() {
+      this.$refs.tabela.limparFiltro()
+    }
   },
   mounted() {
     this.buscarClientes();
