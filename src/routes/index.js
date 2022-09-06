@@ -3,6 +3,7 @@ import Home from "./../pages/Home.vue";
 import Usuarios from "../pages/Usuarios.vue";
 import Cliente from "../pages/Cliente.vue";
 import DetalheCliente from "../pages/DetalheCliente.vue";
+import Produtos from "../pages/Produtos.vue";
 
 export default [
   {
@@ -45,6 +46,15 @@ export default [
     name: "DetalheCliente",
     path: "/cliente/:id",
     component: DetalheCliente,
+    meta: {
+      nav: true,
+      auth: true,
+    },
+  },
+  {
+    name: "Produtos",
+    path: "/produtos",
+    component: Produtos,
     meta: {
       nav: true,
       auth: true,
