@@ -2,7 +2,7 @@
   <div class="main">
     <div class="flex items-center space-between">
       <h1>Clientes</h1>
-      <button v-show="!form" @click="abrirForm()">Novo</button>
+      <button v-show="!form" @click="abrirForm">Novo</button>
     </div>
     <div class="mb-20">
       <input

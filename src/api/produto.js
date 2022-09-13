@@ -16,3 +16,38 @@ export async function buscarTodosProdutos() {
     throw { message: error.body.message };
   }
 }
+
+export async function buscarProdutoPorId(id) {
+  try {
+    setToken();
+    return await api.get(id);
+  } catch (error) {
+    throw { message: error.body.message };
+  }
+}
+
+export async function cadastrarProduto(produto) {
+  try {
+    setToken();
+    return await api.post(produto);
+  } catch (error) {
+    throw { message: error.body.message };
+  }
+}
+
+export async function atualizarProduto(produto) {
+  try {
+    setToken();
+    return await api.put(produto);
+  } catch (error) {
+    throw { message: error.body.message };
+  }
+}
+
+export async function removerProduto(id) {
+  try {
+    return await api.delete(id);
+  } catch (error) {
+    throw { message: error.body.message };
+  }
+}

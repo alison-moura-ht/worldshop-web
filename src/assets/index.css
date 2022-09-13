@@ -125,6 +125,7 @@ table tbody tr:last-child td:first-child {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 10px;
 }
 
@@ -135,11 +136,11 @@ table tbody tr:last-child td:first-child {
 .form .btns {
     display: flex;
     justify-content: flex-end;
-    margin-top: 20px;
+    align-items: center;
 }
 
 .form .btns button {
-    margin-left: 10px;
+    margin-right: 10px;
 }
 
 /* MARGIN BOTTOM */
