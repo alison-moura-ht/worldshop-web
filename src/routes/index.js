@@ -5,6 +5,7 @@ import Cliente from "../pages/Cliente.vue";
 import DetalheCliente from "../pages/DetalheCliente.vue";
 import Produtos from "../pages/Produtos.vue";
 import DetalheProduto from "../pages/DetalheProduto.vue";
+import Vendas from "../pages/Vendas.vue";
 
 export default [
   {
@@ -65,6 +66,15 @@ export default [
     name: "DetalheProduto",
     path: "/produto/:id",
     component: DetalheProduto,
+    meta: {
+      nav: true,
+      auth: true,
+    },
+  },
+  {
+    name: "Vendas",
+    path: "/vendas",
+    component: Vendas,
     meta: {
       nav: true,
       auth: true,

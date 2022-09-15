@@ -6,6 +6,7 @@
       <router-link to="/usuarios">Usuários</router-link>
       <router-link to="/clientes">Clientes</router-link>
       <router-link to="/produtos">Produtos</router-link>
+      <router-link to="/vendas">Vendas</router-link>
       <a @click="sair()">Sair</a>
     </div>
   </nav>
