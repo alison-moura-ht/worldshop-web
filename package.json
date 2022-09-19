@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "mande": "^2.0.2",
+    "moment-timezone": "^0.5.37",
     "pinia": "^2.0.16",
     "vue": "^3.2.25",
     "vue-router": "^4.1.2"
