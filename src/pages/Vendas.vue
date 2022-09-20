@@ -2,8 +2,12 @@
   <div class="main">
     <div class="flex items-center space-between">
       <h1>Vendas</h1>
+      <button v-show="!form" @click="abrirForm">Novo</button>
     </div>
-    <section>
+    <section v-show="form">
+      <form-venda-app @salvo="salvo" @cancelar="fecharForm"></form-venda-app>
+    </section>
+    <section class="form">
       <!-- tabela de vendas -->
       <tabela-venda-app></tabela-venda-app>
     </section>
@@ -13,11 +17,25 @@
 import { mapActions } from "pinia";
 import { useVendaStore } from "../stores/vendaStore";
 import TabelaVendaApp from "../components/venda/TabelaVendaApp.vue";
+import FormVendaApp from "../components/venda/FormVendaApp.vue";
 
 export default {
-  components: { TabelaVendaApp },
+  data: () => ({
+    form: false,
+  }),
+  components: { TabelaVendaApp, FormVendaApp },
   methods: {
     ...mapActions(useVendaStore, ["buscarTodasVendas"]),
+    abrirForm() {
+      this.form = true;
+    },
+    fecharForm() {
+      this.form = false;
+    },
+    salvo() {
+      this.fecharForm();
+      this.buscarTodasVendas();
+    },
   },
   async mounted() {
     this.buscarTodasVendas();

@@ -15,6 +15,7 @@ body {
     --primaria-clara: #e3faec;
     --preto: #474747;
     --cinza: #aeaeae;
+    --cinza-claro: #e9e9e9;
     --erro: rgb(255, 104, 104);
     --erro-claro: rgb(255, 174, 174);
     --border-radius: 5px;
@@ -22,13 +23,20 @@ body {
 }
 
 /* INPUT */
-input {
+input,
+select {
     background-color: transparent;
     border: 2px solid var(--cinza);
     padding: 10px 20px;
     border-radius: var(--border-radius);
     outline: none;
     color: var(--preto)
+}
+
+input:disabled {
+    border-color: var(--cinza-claro);
+    color: var(--cinza);
+    cursor: not-allowed;
 }
 
 input:focus {
@@ -103,6 +111,10 @@ table tbody tr:last-child td:first-child {
     display: flex;
 }
 
+.justify-center {
+    justify-content: center;
+}
+
 .items-center {
     align-items: center;
 }
@@ -113,6 +125,10 @@ table tbody tr:last-child td:first-child {
 
 .flex-end {
     justify-content: flex-end;
+}
+
+.gap-10 {
+    gap: 10px;
 }
 
 /* FORMS */
@@ -147,9 +163,11 @@ table tbody tr:last-child td:first-child {
 .mb-10 {
     margin-bottom: 10px;
 }
+
 .mb-20 {
     margin-bottom: 20px;
 }
+
 .mb-30 {
     margin-bottom: 30px;
 }

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { buscarTodasVendas } from "../api/venda";
+import { buscarTodasVendas, cadastrarVenda } from "../api/venda";
 
 export const useVendaStore = defineStore("venda", {
   state: () => ({
@@ -9,6 +9,13 @@ export const useVendaStore = defineStore("venda", {
     async buscarTodasVendas() {
       try {
         this.vendas = await buscarTodasVendas();
+      } catch (error) {
+        throw error;
+      }
+    },
+    async cadastrarVenda(venda) {
+      try {
+        return await cadastrarVenda(venda);
       } catch (error) {
         throw error;
       }

@@ -16,3 +16,12 @@ export async function buscarTodasVendas() {
     throw { message: error.body.message };
   }
 }
+
+export async function cadastrarVenda(venda) {
+  try {
+    setToken();
+    return await api.post(venda);
+  } catch (error) {
+    throw { message: error.body.message };
+  }
+}
