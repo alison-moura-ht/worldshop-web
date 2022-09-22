@@ -5,6 +5,7 @@
       <th>Data venda</th>
       <th>Cliente</th>
       <th>Vendedor</th>
+      <th>Cancelado</th>
       <th>Ações</th>
     </thead>
     <tbody>
@@ -13,10 +14,10 @@
         <td>{{ formataData(item.data) }}</td>
         <td>{{ item.cliente.nome }}</td>
         <td>{{ item.usuario.nome }}</td>
+        <td>{{ item.cancelado ? "Sim" : "Não" }}</td>
         <td>
-          <button class="text">Editar</button>
-          <button class="text">Remover</button>
           <button class="text">Detalhes</button>
+          <button @click="cancelar(item)" class="text">Cancelar</button>
         </td>
       </tr>
     </tbody>
@@ -25,7 +26,8 @@
 <script>
 import { mapState } from "pinia";
 import { useVendaStore } from "../../stores/vendaStore";
-import moment from "moment-timezone"
+import { formataBRL } from "../../utils/formatadorUtil";
+import moment from "moment-timezone";
 
 export default {
   computed: {
@@ -33,16 +35,15 @@ export default {
   },
   methods: {
     formataDecimal(valor) {
-      return valor.toLocaleString("pt-br", {
-        style: "currency",
-        currency: "BRL",
-        minimumFractionDigits: 2,
-      });
+      return formataBRL(valor);
     },
     formataData(data) {
-      const dataMoment = moment(data)
-      return dataMoment.tz("America/Campo_Grande").format("DD/MM/YYYY")
-    }
+      const dataMoment = moment(data);
+      return dataMoment.tz("America/Campo_Grande").format("DD/MM/YYYY");
+    },
+    cancelar(item) {
+      this.$emit("cancelar", item);
+    },
   },
 };
 </script>

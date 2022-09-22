@@ -159,6 +159,19 @@ table tbody tr:last-child td:first-child {
     margin-right: 10px;
 }
 
+/* MARGIN TOP */
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
 /* MARGIN BOTTOM */
 .mb-10 {
     margin-bottom: 10px;

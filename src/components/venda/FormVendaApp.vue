@@ -1,6 +1,5 @@
 <template>
-  {{ venda }}
-  <form>
+  <form @submit.prevent="">
     <input
       v-model="venda.data"
       type="date"
@@ -34,7 +33,9 @@
         placeholder="Quantidade"
       />
       <div class="flex space-between items-center">
-        <span> <strong>Subtotal: </strong>{{ item.subtotal }} </span>
+        <span>
+          <strong>Subtotal: </strong>{{ formataDecimal(item.subtotal) }}
+        </span>
         <div>
           <button @click="fecharItemForm" type="button" class="text">
             Cancelar
@@ -44,8 +45,32 @@
       </div>
     </fieldset>
   </form>
+  <section class="mb-20 mt-20">
+    <table v-show="venda.itens.length > 0">
+      <thead>
+        <th>#</th>
+        <th>Produto</th>
+        <th>Quantidae</th>
+        <th>Valor un.</th>
+        <th>Ações</th>
+      </thead>
+      <tbody>
+        <tr v-for="(item, i) in venda.itens" :key="i">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.descricao }}</td>
+          <td>{{ item.quantidade }}</td>
+          <td>{{ formataDecimal(item.valorUnitario) }}</td>
+          <td>
+            <button @click="removerItem(i)" type="button" class="text">
+              Remover
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
   <div>
-    <span><strong>Total: </strong> {{ venda.valorTotal }}</span>
+    <span><strong>Total: </strong> {{ formataDecimal(venda.valorTotal) }}</span>
   </div>
   <div class="flex justify-center gap-10">
     <button @click="cancelar" type="button" class="text">Cancelar</button>
@@ -58,6 +83,7 @@ import { useClienteStore } from "./../../stores/clienteStore";
 import { useUsuarioStore } from "../../stores/usuarioStore";
 import { useProdutoStore } from "../../stores/produtoStore";
 import { useVendaStore } from "../../stores/vendaStore";
+import { formataBRL } from "../../utils/formatadorUtil";
 import moment from "moment-timezone";
 
 export default {
@@ -92,15 +118,22 @@ export default {
       this.venda.valorTotal += this.item.subtotal;
       this.venda.itens.push({
         produto: this.item.produto._id,
+        valorUnitario: this.item.produto.valorUnitario,
+        descricao: this.item.produto.descricao,
         quantidade: this.item.quantidade,
       });
       this.item = { quantidade: 1, subtotal: 0 };
       this.itemForm = false;
     },
+    removerItem(pos) {
+      const itemRemovido = this.venda.itens.splice(pos, 1)[0];
+      this.venda.valorTotal -=
+        itemRemovido.valorUnitario * itemRemovido.quantidade;
+    },
     async salvar() {
       try {
         await this.cadastrarVenda(this.venda);
-        this.venda = {};
+        this.venda = { valorTotal: 0, itens: [] };
         this.$emit("salvo");
         this.iniciarVenda();
       } catch (error) {
@@ -114,6 +147,10 @@ export default {
       this.venda.data = moment(new Date())
         .tz("America/Campo_Grande")
         .format("YYYY-MM-DD");
+    },
+
+    formataDecimal(valor) {
+      return formataBRL(valor);
     },
   },
   mounted() {

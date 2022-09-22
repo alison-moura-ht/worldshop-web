@@ -9,15 +9,17 @@
     </section>
     <section class="form">
       <!-- tabela de vendas -->
-      <tabela-venda-app></tabela-venda-app>
+      <tabela-venda-app @cancelar="cancelar"></tabela-venda-app>
     </section>
   </div>
 </template>
 <script>
 import { mapActions } from "pinia";
 import { useVendaStore } from "../stores/vendaStore";
+import { useConfirmStore } from "../stores/confirmStore";
 import TabelaVendaApp from "../components/venda/TabelaVendaApp.vue";
 import FormVendaApp from "../components/venda/FormVendaApp.vue";
+import { useAlertaStore } from "../stores/alertaStore";
 
 export default {
   data: () => ({
@@ -25,7 +27,9 @@ export default {
   }),
   components: { TabelaVendaApp, FormVendaApp },
   methods: {
-    ...mapActions(useVendaStore, ["buscarTodasVendas"]),
+    ...mapActions(useAlertaStore, ["exibirAlertaErro"]),
+    ...mapActions(useConfirmStore, ["exibirConfirm"]),
+    ...mapActions(useVendaStore, ["buscarTodasVendas", "cancelarVenda"]),
     abrirForm() {
       this.form = true;
     },
@@ -35,6 +39,16 @@ export default {
     salvo() {
       this.fecharForm();
       this.buscarTodasVendas();
+    },
+    cancelar(venda) {
+      this.exibirConfirm("Tem certeza?", async () => {
+        try {
+          await this.cancelarVenda(venda._id);
+          this.buscarTodasVendas();
+        } catch (error) {
+          this.exibirAlertaErro(error.message);
+        }
+      });
     },
   },
   async mounted() {

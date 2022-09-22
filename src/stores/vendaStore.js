@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { buscarTodasVendas, cadastrarVenda } from "../api/venda";
+import { buscarTodasVendas, cadastrarVenda, cancelarVenda } from "../api/venda";
 
 export const useVendaStore = defineStore("venda", {
   state: () => ({
@@ -16,6 +16,13 @@ export const useVendaStore = defineStore("venda", {
     async cadastrarVenda(venda) {
       try {
         return await cadastrarVenda(venda);
+      } catch (error) {
+        throw error;
+      }
+    },
+    async cancelarVenda(venda) {
+      try {
+        return await cancelarVenda(venda);
       } catch (error) {
         throw error;
       }

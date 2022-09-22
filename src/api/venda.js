@@ -25,3 +25,12 @@ export async function cadastrarVenda(venda) {
     throw { message: error.body.message };
   }
 }
+
+export async function cancelarVenda(id) {
+  try {
+    setToken();
+    return await api.delete(id);
+  } catch (error) {
+    throw { message: error.body.message };
+  }
+}
