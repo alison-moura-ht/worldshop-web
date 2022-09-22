@@ -6,6 +6,7 @@ import DetalheCliente from "../pages/DetalheCliente.vue";
 import Produtos from "../pages/Produtos.vue";
 import DetalheProduto from "../pages/DetalheProduto.vue";
 import Vendas from "../pages/Vendas.vue";
+import DetalheVenda from "../pages/DetalheVenda.vue";
 
 export default [
   {
@@ -75,6 +76,15 @@ export default [
     name: "Vendas",
     path: "/vendas",
     component: Vendas,
+    meta: {
+      nav: true,
+      auth: true,
+    },
+  },
+  {
+    name: "DetalheVenda",
+    path: "/venda/:id",
+    component: DetalheVenda,
     meta: {
       nav: true,
       auth: true,

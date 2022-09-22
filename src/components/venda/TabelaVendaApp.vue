@@ -16,7 +16,7 @@
         <td>{{ item.usuario.nome }}</td>
         <td>{{ item.cancelado ? "Sim" : "Não" }}</td>
         <td>
-          <button class="text">Detalhes</button>
+          <button @click="detalhe(item._id)" class="text">Detalhes</button>
           <button @click="cancelar(item)" class="text">Cancelar</button>
         </td>
       </tr>
@@ -26,8 +26,7 @@
 <script>
 import { mapState } from "pinia";
 import { useVendaStore } from "../../stores/vendaStore";
-import { formataBRL } from "../../utils/formatadorUtil";
-import moment from "moment-timezone";
+import { formataBRL, formataData } from "../../utils/formatadorUtil";
 
 export default {
   computed: {
@@ -38,11 +37,13 @@ export default {
       return formataBRL(valor);
     },
     formataData(data) {
-      const dataMoment = moment(data);
-      return dataMoment.tz("America/Campo_Grande").format("DD/MM/YYYY");
+      return formataData(data);
     },
     cancelar(item) {
       this.$emit("cancelar", item);
+    },
+    detalhe(id) {
+      this.$router.push({ name: "DetalheVenda", params: { id: id } });
     },
   },
 };

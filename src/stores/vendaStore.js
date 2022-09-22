@@ -1,5 +1,10 @@
 import { defineStore } from "pinia";
-import { buscarTodasVendas, cadastrarVenda, cancelarVenda } from "../api/venda";
+import {
+  buscarTodasVendas,
+  cadastrarVenda,
+  cancelarVenda,
+  buscarVendaPorId,
+} from "../api/venda";
 
 export const useVendaStore = defineStore("venda", {
   state: () => ({
@@ -9,6 +14,13 @@ export const useVendaStore = defineStore("venda", {
     async buscarTodasVendas() {
       try {
         this.vendas = await buscarTodasVendas();
+      } catch (error) {
+        throw error;
+      }
+    },
+    async buscarVendaPorId(id) {
+      try {
+        return await buscarVendaPorId(id);
       } catch (error) {
         throw error;
       }

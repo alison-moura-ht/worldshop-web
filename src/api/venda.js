@@ -17,6 +17,15 @@ export async function buscarTodasVendas() {
   }
 }
 
+export async function buscarVendaPorId(id) {
+  try {
+    setToken();
+    return await api.get(id);
+  } catch (error) {
+    throw { message: error.body.message };
+  }
+}
+
 export async function cadastrarVenda(venda) {
   try {
     setToken();
