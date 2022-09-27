@@ -4,12 +4,34 @@
       <h1>Vendas</h1>
       <button v-show="!form" @click="abrirForm">Novo</button>
     </div>
+    <div class="mb-20">
+      <label for="dataInicial" class="mr-10">Data inicial</label>
+      <input
+        id="dataInicial"
+        v-model="dataInicial"
+        class="mr-10"
+        type="date"
+        placeholder="Digite o nome, email ou CPF para buscar"
+      />
+      <label for="dataFinal" class="mr-10">Data final</label>
+      <input
+        id="dataFinal"
+        v-model="dataFinal"
+        class="mr-10"
+        type="date"
+        placeholder="Digite o nome, email ou CPF para buscar"
+      />
+      <button class="mr-10" @click="filtrarVendasSemana">Nesta semana</button>
+      <button class="mr-10" @click="filtrarVendasMes">Neste mês</button>
+      <button class="mr-10" @click="filtrarVendas">Buscar</button>
+      <button class="text" @click="limparFiltro">Limpar</button>
+    </div>
     <section v-show="form">
       <form-venda-app @salvo="salvo" @cancelar="fecharForm"></form-venda-app>
     </section>
     <section class="form">
       <!-- tabela de vendas -->
-      <tabela-venda-app @cancelar="cancelar"></tabela-venda-app>
+      <tabela-venda-app ref="tabela" @cancelar="cancelar"></tabela-venda-app>
     </section>
   </div>
 </template>
@@ -20,10 +42,13 @@ import { useConfirmStore } from "../stores/confirmStore";
 import TabelaVendaApp from "../components/venda/TabelaVendaApp.vue";
 import FormVendaApp from "../components/venda/FormVendaApp.vue";
 import { useAlertaStore } from "../stores/alertaStore";
+import { getPrimeiroEUltimoDiaMes, getPrimeiroEUltimoDiaSemana } from "../utils/dataUtil";
 
 export default {
   data: () => ({
     form: false,
+    dataInicial: "",
+    dataFinal: "",
   }),
   components: { TabelaVendaApp, FormVendaApp },
   methods: {
@@ -49,6 +74,38 @@ export default {
           this.exibirAlertaErro(error.message);
         }
       });
+    },
+    filtrarVendas() {
+      if (this.dataInicial && this.dataFinal) {
+        this.$refs.tabela.filtrarVendas(this.dataInicial, this.dataFinal);
+      } else {
+        this.exibirAlertaErro("Informe o intervalo de datas para a busca");
+      }
+    },
+    filtrarVendasSemana() {
+      try {
+        const { dataInicial, dataFinal } = getPrimeiroEUltimoDiaSemana();
+        this.dataInicial = dataInicial;
+        this.dataFinal = dataFinal;
+        this.$refs.tabela.filtrarVendas(this.dataInicial, this.dataFinal);
+      } catch (error) {
+        this.exibirAlertaErro(error.message);
+      }
+    },
+    filtrarVendasMes() {
+      try {
+        const { dataInicial, dataFinal } = getPrimeiroEUltimoDiaMes();
+        this.dataInicial = dataInicial;
+        this.dataFinal = dataFinal;
+        this.$refs.tabela.filtrarVendas(this.dataInicial, this.dataFinal);
+      } catch (error) {
+        this.exibirAlertaErro(error.message);
+      }
+    },
+    limparFiltro() {
+      this.$refs.tabela.limparFiltro()
+      this.dataInicial = "";
+      this.dataFinal = "";
     },
   },
   async mounted() {

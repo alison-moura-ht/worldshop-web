@@ -26,6 +26,15 @@ export async function buscarVendaPorId(id) {
   }
 }
 
+export async function buscarVendasPorIntervalo(dataInicial, dataFinal) {
+  try {
+    setToken();
+    return await api.post(`/${dataInicial}/${dataFinal}`, {}, {});
+  } catch (error) {
+    throw { message: error.body.message };
+  }
+}
+
 export async function cadastrarVenda(venda) {
   try {
     setToken();

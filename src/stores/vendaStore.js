@@ -4,6 +4,7 @@ import {
   cadastrarVenda,
   cancelarVenda,
   buscarVendaPorId,
+  buscarVendasPorIntervalo,
 } from "../api/venda";
 
 export const useVendaStore = defineStore("venda", {
@@ -14,6 +15,7 @@ export const useVendaStore = defineStore("venda", {
     async buscarTodasVendas() {
       try {
         this.vendas = await buscarTodasVendas();
+        return this.vendas;
       } catch (error) {
         throw error;
       }
@@ -21,6 +23,13 @@ export const useVendaStore = defineStore("venda", {
     async buscarVendaPorId(id) {
       try {
         return await buscarVendaPorId(id);
+      } catch (error) {
+        throw error;
+      }
+    },
+    async buscarVendasPorIntervalo(dataInicial, dataFinal) {
+      try {
+        return await buscarVendasPorIntervalo(dataInicial, dataFinal);
       } catch (error) {
         throw error;
       }

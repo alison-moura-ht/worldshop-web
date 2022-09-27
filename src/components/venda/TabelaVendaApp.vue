@@ -9,7 +9,7 @@
       <th>Ações</th>
     </thead>
     <tbody>
-      <tr v-for="item in vendas" :key="item._id">
+      <tr v-for="item in vendasFiltrado" :key="item._id">
         <td>{{ formataDecimal(item.valorTotal) }}</td>
         <td>{{ formataData(item.data) }}</td>
         <td>{{ item.cliente.nome }}</td>
@@ -24,15 +24,22 @@
   </table>
 </template>
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useVendaStore } from "../../stores/vendaStore";
 import { formataBRL, formataData } from "../../utils/formatadorUtil";
 
 export default {
+  data: () => ({
+    vendasFiltrado: [],
+  }),
   computed: {
     ...mapState(useVendaStore, ["vendas"]),
   },
   methods: {
+    ...mapActions(useVendaStore, [
+      "buscarVendasPorIntervalo",
+      "buscarTodasVendas",
+    ]),
     formataDecimal(valor) {
       return formataBRL(valor);
     },
@@ -44,6 +51,20 @@ export default {
     },
     detalhe(id) {
       this.$router.push({ name: "DetalheVenda", params: { id: id } });
+    },
+    async filtrarVendas(dataInicial, dataFinal) {
+      this.vendasFiltrado = await this.buscarVendasPorIntervalo(
+        dataInicial,
+        dataFinal
+      );
+    },
+    async limparFiltro() {
+      this.vendasFiltrado = await this.buscarTodasVendas();
+    },
+  },
+  watch: {
+    vendas() {
+      this.vendasFiltrado = this.vendas;
     },
   },
 };
