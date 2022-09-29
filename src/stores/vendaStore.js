@@ -5,6 +5,7 @@ import {
   cancelarVenda,
   buscarVendaPorId,
   buscarVendasPorIntervalo,
+  pdfVendasPorIntervalo,
 } from "../api/venda";
 
 export const useVendaStore = defineStore("venda", {
@@ -30,6 +31,13 @@ export const useVendaStore = defineStore("venda", {
     async buscarVendasPorIntervalo(dataInicial, dataFinal) {
       try {
         return await buscarVendasPorIntervalo(dataInicial, dataFinal);
+      } catch (error) {
+        throw error;
+      }
+    },
+    async pdfVendasPorIntervalo(dataInicial, dataFinal) {
+      try {
+        return await pdfVendasPorIntervalo(dataInicial, dataFinal);
       } catch (error) {
         throw error;
       }

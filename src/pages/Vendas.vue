@@ -24,7 +24,8 @@
       <button class="mr-10" @click="filtrarVendasSemana">Nesta semana</button>
       <button class="mr-10" @click="filtrarVendasMes">Neste mês</button>
       <button class="mr-10" @click="filtrarVendas">Buscar</button>
-      <button class="text" @click="limparFiltro">Limpar</button>
+      <button class="text mr-10" @click="limparFiltro">Limpar</button>
+      <button @click="gerarPDFVendas">Gerar PDF</button>
     </div>
     <section v-show="form">
       <form-venda-app @salvo="salvo" @cancelar="fecharForm"></form-venda-app>
@@ -42,7 +43,10 @@ import { useConfirmStore } from "../stores/confirmStore";
 import TabelaVendaApp from "../components/venda/TabelaVendaApp.vue";
 import FormVendaApp from "../components/venda/FormVendaApp.vue";
 import { useAlertaStore } from "../stores/alertaStore";
-import { getPrimeiroEUltimoDiaMes, getPrimeiroEUltimoDiaSemana } from "../utils/dataUtil";
+import {
+  getPrimeiroEUltimoDiaMes,
+  getPrimeiroEUltimoDiaSemana,
+} from "../utils/dataUtil";
 
 export default {
   data: () => ({
@@ -54,7 +58,12 @@ export default {
   methods: {
     ...mapActions(useAlertaStore, ["exibirAlertaErro"]),
     ...mapActions(useConfirmStore, ["exibirConfirm"]),
-    ...mapActions(useVendaStore, ["buscarTodasVendas", "cancelarVenda"]),
+    ...mapActions(useVendaStore, [
+      "buscarTodasVendas",
+      "cancelarVenda",
+      "pdfVendasPorIntervalo",
+    ]),
+
     abrirForm() {
       this.form = true;
     },
@@ -103,9 +112,25 @@ export default {
       }
     },
     limparFiltro() {
-      this.$refs.tabela.limparFiltro()
+      this.$refs.tabela.limparFiltro();
       this.dataInicial = "";
       this.dataFinal = "";
+    },
+    async gerarPDFVendas() {
+      if (this.dataInicial && this.dataFinal) {
+        const blob = await this.pdfVendasPorIntervalo(
+          this.dataInicial,
+          this.dataFinal
+        );
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Relatório Vendas.pdf");
+        document.body.appendChild(link);
+        link.click();
+      } else {
+        this.exibirAlertaErro("Informe o intervalo de datas para gerar o PDF");
+      }
     },
   },
   async mounted() {

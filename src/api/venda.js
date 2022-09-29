@@ -1,4 +1,5 @@
 import { mande } from "mande";
+import axios from "axios";
 import { useUsuarioStore } from "../stores/usuarioStore";
 
 const api = mande("http://localhost:3000/vendas");
@@ -30,6 +31,24 @@ export async function buscarVendasPorIntervalo(dataInicial, dataFinal) {
   try {
     setToken();
     return await api.post(`/${dataInicial}/${dataFinal}`, {}, {});
+  } catch (error) {
+    throw { message: error.body.message };
+  }
+}
+
+export async function pdfVendasPorIntervalo(dataInicial, dataFinal) {
+  try {
+    const store = useUsuarioStore();
+    const token = store.usuarioLogado.token;
+    const response = await axios({
+      url: `http://localhost:3000/vendas/pdf/${dataInicial}/${dataFinal}`,
+      method: "POST",
+      responseType: "blob", // important,
+      headers: {
+        "x-access-token": token,
+      },
+    });
+    return response.data;
   } catch (error) {
     throw { message: error.body.message };
   }
